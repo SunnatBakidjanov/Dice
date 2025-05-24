@@ -1,4 +1,5 @@
 import readlineSync from 'readline-sync';
+import ProbabilityTable from './ProbabilityWinCalculator.js';
 
 export default class CLI {
 	constructor(diceSets) {
@@ -46,6 +47,8 @@ export default class CLI {
 
 	showProbabilityTable() {
 		console.log('\nProbability table:\n');
+		const probabilityTable = new ProbabilityTable(this.diceSets);
+		probabilityTable.generateTable();
 	}
 
 	showHelp() {
