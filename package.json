@@ -12,5 +12,8 @@
   "description": "",
   "devDependencies": {
     "prettier": "^3.5.3"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.10"
   }
 }

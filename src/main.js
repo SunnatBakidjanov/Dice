@@ -1,4 +1,5 @@
 import DiceParser from './classes/DiceParser.js';
+import CLI from './classes/CLI.js';
 
 function showExample() {
 	console.log(`\nINVALID DICE CONFIGURATION\n`);
@@ -17,6 +18,13 @@ function parseArguments(args) {
 	}
 }
 
+function handleParseSuccessfully(args) {
+	const diceSets = parseArguments(args);
+	console.log('\nDice sets parsed successfully!', diceSets);
+	const cli = new CLI(diceSets);
+	cli.startMenuLoop();
+}
+
 function main() {
 	const args = process.argv.slice(2);
 
@@ -25,8 +33,7 @@ function main() {
 		showExample();
 	}
 
-	const diceSets = parseArguments(args);
-	console.log('Dice sets parsed successfully!\n', diceSets);
+	handleParseSuccessfully(args);
 }
 
 main();
