@@ -13,6 +13,14 @@ export default class CLI {
 		};
 	}
 
+	startMenuLoop() {
+		while (true) {
+			this.displayMenu();
+			const choice = readlineSync.question('\nYour choice: ').trim();
+			if (this.handleChoice(choice)) break;
+		}
+	}
+
 	handleChoice(choice) {
 		const action = this.actions[choice];
 
@@ -22,14 +30,6 @@ export default class CLI {
 		} else {
 			console.log('\nInvalid option. Please choose between 1 - 4.\n');
 			return false;
-		}
-	}
-
-	startMenuLoop() {
-		while (true) {
-			this.displayMenu();
-			const choice = readlineSync.question('\nYour choice: ').trim();
-			if (this.handleChoice(choice)) break;
 		}
 	}
 
