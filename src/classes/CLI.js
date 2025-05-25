@@ -1,5 +1,6 @@
 import readlineSync from 'readline-sync';
 import ProbabilityTable from './ProbabilityWinCalculator.js';
+import DiceGame from './DiceGame.js';
 
 export default class CLI {
 	constructor(diceSets) {
@@ -43,6 +44,8 @@ export default class CLI {
 
 	playGame() {
 		console.log('\nStarting the game...\n');
+		const game = new DiceGame(this.diceSets);
+		game.play();
 	}
 
 	showProbabilityTable() {

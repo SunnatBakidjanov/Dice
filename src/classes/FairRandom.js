@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-class FairRandom {
+export default class FairRandom {
 	constructor(max) {
 		this.max = max;
 	}
@@ -13,12 +13,10 @@ class FairRandom {
 		this._secret = secret;
 		this._number = number;
 		this._hmac = hmac;
-
-		console.log(`HMAC: ${hmac}`);
 	}
 
 	verifyHmac() {
-		const expectedHmac = this.createHmac(this._secret, this._number);
+		const expectedHmac = crypto.createHmac('sha256', this._secret).update(String(this._number)).digest('hex');
 		return expectedHmac === this._hmac;
 	}
 
@@ -26,6 +24,6 @@ class FairRandom {
 		console.log(`\nReveal:`);
 		console.log(`Computer's number: ${this._number}`);
 		console.log(`Secret: ${this._secret}`);
-		console.log(`HMAC verification: ${this.verifyHmac() ? 'valid' : 'invalid'}`);
+		console.log(`HMAC verification: ${this.verifyHmac() ? 'valid' : 'invalid'}\n`);
 	}
 }
