@@ -1,6 +1,8 @@
 import readlineSync from 'readline-sync';
 import FairRandom from './FairRandom.js';
+import DiceParser from './DiceParser.js';
 import crypto from 'crypto';
+import ProbabilityTable from './ProbabilityWinCalculator.js';
 
 export default class DiceGame {
 	constructor(diceSets) {
@@ -75,6 +77,8 @@ export default class DiceGame {
 
 			if (input === '?') {
 				console.log(helpText);
+				const probabilityTable = new ProbabilityTable(this.diceSets);
+				probabilityTable.generateTable();
 				continue;
 			}
 

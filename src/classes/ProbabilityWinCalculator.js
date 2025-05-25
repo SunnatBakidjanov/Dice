@@ -31,13 +31,16 @@ export default class ProbabilityTable {
 			style: { head: ['cyan'], border: ['gray'] },
 		});
 
+		this.calculateRows(results, table);
+		console.log(`\n${table.toString()}\n`);
+	}
+
+	calculateRows(results, table) {
 		const rows = this.diceSets.map((setA, i) => {
 			const row = [setA.join(',')];
 
 			const cols = this.diceSets.map((_, j) => {
-				if (i === j) {
-					return '- (0.3333)';
-				}
+				if (i === j) return '- (0.3333)';
 				const result = results.find(r => r.i === i && r.j === j);
 				return result ? result.prob.toFixed(4) : '';
 			});
@@ -46,6 +49,5 @@ export default class ProbabilityTable {
 		});
 
 		rows.forEach(row => table.push(row));
-		console.log(table.toString());
 	}
 }
