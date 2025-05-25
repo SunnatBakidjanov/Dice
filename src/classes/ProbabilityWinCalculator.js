@@ -1,3 +1,5 @@
+import Table from 'cli-table3';
+
 export default class ProbabilityTable {
 	constructor(diceSets) {
 		this.diceSets = diceSets;
@@ -5,40 +7,45 @@ export default class ProbabilityTable {
 
 	generateTable() {
 		const results = this.diceSets.flatMap((setA, i) =>
-			this.diceSets
-				.map((setB, j) => {
-					if (i === j) return null;
-
-					const prob = ProbabilityTable.calculateWinProbability(setA, setB);
-					return { i, j, prob };
-				})
-				.filter(Boolean)
+			this.diceSets.map((setB, j) => {
+				const prob = ProbabilityTable.calculateWinProbability(setA, setB);
+				return { i, j, prob };
+			})
 		);
 
 		this.printTable(results);
 	}
 
 	static calculateWinProbability(setA, setB) {
-		const outcomes = setA.flatMap(a =>
-			setB.map(b => {
-				if (a > b) return 1;
-				if (a === b) return 0.5;
-				return 0;
-			})
-		);
-
+		const outcomes = setA.flatMap(a => setB.map(b => (a > b ? 1 : a === b ? 0.5 : 0)));
 		const totalWins = outcomes.reduce((sum, val) => sum + val, 0);
-		const totalGames = outcomes.length;
-		return totalWins / totalGames;
+		return totalWins / outcomes.length;
 	}
 
 	printTable(results) {
-		console.log('------------------------------------------\n');
-		results.forEach(({ i, j, prob }) => {
-			const A = `[${this.diceSets[i].join(',')}]`;
-			const B = `[${this.diceSets[j].join(',')}]`;
-			console.log(`A: ${A} vs B: ${B} => A wins ≈ ${(prob * 100).toFixed(2)}%`);
+		const headers = ['User dice v', ...this.diceSets.map(set => set.join(','))];
+
+		const table = new Table({
+			head: headers,
+			colWidths: headers.map(() => 15),
+			style: { head: ['cyan'], border: ['gray'] },
 		});
-		console.log('\n------------------------------------------\n');
+
+		const rows = this.diceSets.map((setA, i) => {
+			const row = [setA.join(',')];
+
+			const cols = this.diceSets.map((_, j) => {
+				if (i === j) {
+					return '- (0.3333)';
+				}
+				const result = results.find(r => r.i === i && r.j === j);
+				return result ? result.prob.toFixed(4) : '';
+			});
+
+			return row.concat(cols);
+		});
+
+		rows.forEach(row => table.push(row));
+		console.log(table.toString());
 	}
 }
