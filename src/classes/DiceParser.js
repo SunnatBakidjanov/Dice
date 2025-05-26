@@ -1,3 +1,5 @@
+const DICE_MIN_LENGTH = 6;
+
 export default class DiceParser {
 	static parseArgs(args) {
 		return args.map(arg => this.parseSingleDie(arg));
@@ -5,7 +7,7 @@ export default class DiceParser {
 
 	static parseSingleDie(arg) {
 		const parts = arg.split(',').map(p => p.trim());
-		if (parts.length !== 6) throw new Error(`Invalid die "${arg}": must contain exactly 6 values`);
+		if (parts.length !== DICE_MIN_LENGTH) throw new Error(`Invalid die "${arg}": must contain exactly 6 values`);
 		return this.validateAndConvert(parts, arg);
 	}
 

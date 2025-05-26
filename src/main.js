@@ -27,8 +27,9 @@ function handleParseSuccessfully(args) {
 
 function main() {
 	const args = process.argv.slice(2);
+	const DICE_MIN_LENGTH = 2;
 
-	if (args.length <= 2) {
+	if (args.length <= DICE_MIN_LENGTH) {
 		console.log('\nThere must be at least three dice\n');
 		showExample();
 	}

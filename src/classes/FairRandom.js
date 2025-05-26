@@ -1,12 +1,14 @@
 import crypto from 'crypto';
 
+const HMAC_SECRET_LENGTH = 32;
+
 export default class FairRandom {
 	constructor(max) {
 		this.max = max;
 	}
 
 	startDraw() {
-		const secret = crypto.randomBytes(32).toString('hex');
+		const secret = crypto.randomBytes(HMAC_SECRET_LENGTH).toString('hex');
 		const number = crypto.randomInt(0, this.max + 1);
 		const hmac = crypto.createHmac('sha256', secret).update(String(number)).digest('hex');
 
